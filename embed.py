@@ -1,4 +1,6 @@
-from langchain.embeddings import OpenAIEmbeddings, HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+
 import os
 from dotenv import load_dotenv
 
@@ -16,11 +18,11 @@ def initialize_embeddings(openai_api_key=OPENAI_API_KEY):
         Embeddings object: An instance of OpenAIEmbeddings or HuggingFaceEmbeddings.
     """
     # Retrieve the OpenAI API key (default to an environment variable if not explicitly provided)
-    openai_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+    openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
 
-    if openai_key:  # Use OpenAI embeddings if the API key is available
+    if openai_api_key:  # Use OpenAI embeddings if the API key is available
         embeddings = OpenAIEmbeddings(
-            model="text-embedding-ada-002",  # Use the desired OpenAI model
+            model="text-embedding-3-small",  # Use the desired OpenAI model
             openai_api_key=openai_api_key
         )
         print("Using OpenAIEmbeddings")

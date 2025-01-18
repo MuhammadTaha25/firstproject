@@ -18,7 +18,7 @@ def initialize_LLM(openai_api_key=None, gemini_api_key=GOOGLE_API_KEY):
         object: An instance of ChatOpenAI (OpenAI model) or GoogleGenerativeAI (Gemini model).
     """
     # Use explicitly provided API keys or fallback to environment variables
-   if gemini_api_key:  
+   if gemini_api_key:
         model_name = "gemini-1.5-flash-002"
         LLM = GoogleGenerativeAI(
             model=model_name,

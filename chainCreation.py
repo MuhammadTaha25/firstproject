@@ -4,11 +4,17 @@ from langchain.prompts.chat import ChatPromptTemplate
 from langchain.schema import StrOutputParser
 from operator import itemgetter
 from pineconedb import manage_pinecone_store
-#formating the retrived data before passing LLM
+#formating the retrived data before passing LLM\
+import os
+from dotenv import load_dotenv
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
-LLM=initialize_LLM()
+
+OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
+# GOOGLE_API_KEY=os.environ['GEMINI_API_KEY']
+load_dotenv()
+LLM=initialize_LLM(OPENAI_API_KEY)
 retriever=manage_pinecone_store()
 
 def create_expert_chain(LLM=LLM, retriever=retriever):

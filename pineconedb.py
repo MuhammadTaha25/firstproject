@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 embeddings=initialize_embeddings()
-PINECONE_INDEX=os.environ["PINECONE_INDEX"]
+PINECONE_INDEX=os.environ["PINECONE_INDEX_NAME"]
 def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
     """
     Manage Pinecone vector store by checking for an existing index or creating a new one.

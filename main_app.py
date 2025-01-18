@@ -1,12 +1,10 @@
-from chainCreation import create_expert_chain
 import streamlit as st
 from llm import initialize_LLM
-
 from audio import transcribe_audio
 from pineconedb import manage_pinecone_store
 #call the function to create the chain
 
-chain=create_expert_chain()
+
 #initialize the history
 history=[]
 LLM=initialize_LLM()

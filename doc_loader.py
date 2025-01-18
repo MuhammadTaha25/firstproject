@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import WebBaseLoader
-from bs4 import SoupStrainer
+from bs4 import BeautifulSoup, SoupStrainer
 
 def load_wikipedia_content(url, class_name):
     """
@@ -12,11 +12,18 @@ def load_wikipedia_content(url, class_name):
     Returns:
         list: A list of parsed documents from the specified section of the page.
     """
-    #any kind of data can be loaded using its loader. e.g pdfloader,csvloader,etc
-    loader= WebBaseLoader(
+    loader = WebBaseLoader(
         url,
         bs_kwargs=dict(parse_only=SoupStrainer(class_=(class_name)))
     )
-    
     return loader.load()
+
+# Example usage
+url = 'https://en.wikipedia.org/wiki/Elon_Musk'
+class_name = 'mw-content-ltr mw-parser-output'
+documents = load_wikipedia_content(url, class_name)
+
+# Optional: Print the first document's content
+if documents:
+    print(documents[0].get("text", "No content found"))
 

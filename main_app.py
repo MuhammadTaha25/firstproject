@@ -27,7 +27,7 @@ LLM = ChatOpenAI(
                 openai_api_key=OPENAI_API_KEY,
                 temperature=0)
 retriever=manage_pinecone_store()
-def create_expert_chain(LLM=None, retriever=retriever):
+def create_expert_chain(LLM=LLM, retriever=retriever):
     """
     Create a chain for answering questions as an expert on Elon Musk.
 
@@ -57,7 +57,7 @@ def create_expert_chain(LLM=None, retriever=retriever):
     if setup is None:
         raise ValueError("Setup is not properly initialized.")
 
-    _prompt = _prompt = ChatPromptTemplate.from_template(prompt_str)
+    _prompt = ChatPromptTemplate.from_template(prompt_str)
 
     LLM = ChatOpenAI(
     model_name="gpt-4",
@@ -90,11 +90,9 @@ with st.container():
 # Chat logic
 if send_button or send_input and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
-        response = create_expert_chain().invoke({'question': query,"chat_history":"\n".join(str(history))})
+        response = create_expert_chain().invoke({'question': query})
         print(response)
-        query="user_question:"+query
-        response="ai_response:"+response
-        history.append((query, response))  # Generate response
+# Generate response
     # Update session state with user query and AI response
     st.session_state.messages.append(("user", query))
     st.session_state.messages.append(("ai", response))

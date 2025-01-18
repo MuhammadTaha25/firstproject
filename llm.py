@@ -4,9 +4,9 @@ import os
 from dotenv import load_dotenv
 
 OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
-# GOOGLE_API_KEY=os.environ['GEMINI_API_KEY']
+GOOGLE_API_KEY=os.environ['GEMINI_API_KEY']
 load_dotenv()
-def initialize_LLM(openai_api_key=None, gemini_api_key=None):
+def initialize_LLM(openai_api_key=None, gemini_api_key=GOOGLE_API_KEY):
     """
     Initialize a Language Learning Model (LLM) using OpenAI or Gemini based on the availability of API keys.
 
@@ -27,7 +27,7 @@ def initialize_LLM(openai_api_key=None, gemini_api_key=None):
     #         temperature=0
     #     )
     #     print("Using OpenAI's GPT-4 model.")
-   gemini_api_key:  # If OpenAI credit is null
+   if gemini_api_key:  # If OpenAI credit is null
         model_name = "gemini-1.5-flash-002"
         LLM = GoogleGenerativeAI(
             model=model_name,

@@ -51,35 +51,30 @@ def create_expert_chain(LLM=None, retriever=retriever):
     # Chain setup
     history_fetcher=itemgetter("chat_history")
     query_fetcher = itemgetter("question")  # Extract the question from input
+    
     setup = {
         "question": query_fetcher,          # Fetch the question from input
         "context": query_fetcher ,"chat_history":history_fetcher| retriever|format_docs  # Combine the question with the retriever
-    }
-    chain = setup | _prompt | LLM | StrOutputParser()
+    } # Add your setup logic here
+    if setup is None:
+    raise ValueError("Setup is not properly initialized.")
 
+    _prompt = _prompt = ChatPromptTemplate.from_template(prompt_str)
+
+    LLM = ChatOpenAI(
+    model_name="gpt-4",
+    openai_api_key=OPENAI_API_KEY
+    )
+
+    parser = StrOutputParser()
+
+# Build the chain
+    chain = setup | _prompt | LLM | parser
     return chain
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
 
 # Initialize components
-setup = ...  # Add your setup logic here
-if setup is None:
-    raise ValueError("Setup is not properly initialized.")
-
-_prompt = PromptTemplate(
-    input_variables=["question", "context"],
-    template="You are an expert. Answer the following question: {question}\n\n{context}"
-)
-
-LLM = ChatOpenAI(
-    model_name="gpt-4",
-    openai_api_key=OPENAI_API_KEY
-)
-
-parser = StrOutputParser()
-
-# Build the chain
-chain = setup | _prompt | LLM | parser
 
 # Chat container to display conversation
 chat_container = st.container()

@@ -7,7 +7,7 @@ from langchain.schema import StrOutputParser
 from operator import itemgetter
 from langchain_core.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
-from langchain.output_parsers import StrOutputParser
+from langchain_core.output_parsers import StrOutputParser
 #call the function to create the chain
 import os
 from dotenv import load_dotenv

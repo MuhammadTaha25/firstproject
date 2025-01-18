@@ -27,48 +27,34 @@ LLM = ChatOpenAI(
                 openai_api_key=OPENAI_API_KEY,
                 temperature=0)
 retriever=manage_pinecone_store()
-def create_expert_chain(LLM=LLM, retriever=retriever):
-    """
-    Create a chain for answering questions as an expert on Elon Musk.
-
-    Parameters:
-        llm (object): The language model to use for generating responses.
-        retriever (object): A retriever for fetching relevant context based on the question.
-
-    Returns:
-        object: A configured chain for answering questions about Elon Musk.
-    """
-    # Define the prompt template
-    prompt_str = """
+prompt_str = """
     You are a highly knowledgeable and conversational chatbot specializing in providing accurate and insightful information about Elon Musk.
     Answer all questions as if you are an expert on his life, career, companies, and achievements.
     Context: {context}
     Question: {question}
     conversation_history: {chat_history}
     """
-    _prompt = ChatPromptTemplate.from_template(prompt_str)
+_prompt = ChatPromptTemplate.from_template(prompt_str)
 
     # Chain setup
-    history_fetcher=itemgetter("chat_history")
-    query_fetcher = itemgetter("question")  # Extract the question from input
+history_fetcher=itemgetter("chat_history")
+query_fetcher = itemgetter("question")  # Extract the question from input
     
-    setup = {"question": query_fetcher, "context": query_fetcher | retriever| format_docs }
+setup = {"question": query_fetcher, "context": query_fetcher | retriever| format_docs }
  # Add your setup logic here
-    if setup is None:
-        raise ValueError("Setup is not properly initialized.")
+if setup is None:
+    raise ValueError("Setup is not properly initialized.")
+_prompt = ChatPromptTemplate.from_template(prompt_str)
 
-    _prompt = ChatPromptTemplate.from_template(prompt_str)
-
-    LLM = ChatOpenAI(
+LLM = ChatOpenAI(
     model_name="gpt-4",
     openai_api_key=OPENAI_API_KEY
-    )
+)
 
-    parser = StrOutputParser()
+parser = StrOutputParser()
 
 # Build the chain
-    chain = setup | _prompt | LLM | parser
-    return chain
+chain = setup | _prompt | LLM | parser
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
 
@@ -90,7 +76,7 @@ with st.container():
 # Chat logic
 if send_button or send_input and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
-        response = create_expert_chain().invoke({'question': query})
+        response =chain.invoke({'question': query})
         print(response)
 # Generate response
     # Update session state with user query and AI response

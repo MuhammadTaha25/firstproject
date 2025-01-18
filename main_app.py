@@ -60,9 +60,6 @@ def create_expert_chain(LLM=None, retriever=retriever):
     return chain
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
-from langchain.prompts import PromptTemplate
-from langchain.chat_models import ChatOpenAI
-from langchain.output_parsers import StrOutputParser
 
 # Initialize components
 setup = ...  # Add your setup logic here

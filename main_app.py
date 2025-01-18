@@ -56,8 +56,8 @@ def create_expert_chain(LLM=None, retriever=retriever):
         "question": query_fetcher,          # Fetch the question from input
         "context": query_fetcher ,"chat_history":history_fetcher| retriever|format_docs  # Combine the question with the retriever
     } # Add your setup logic here
-    if setup is None:
-    raise ValueError("Setup is not properly initialized.")
+        if setup is None:
+        raise ValueError("Setup is not properly initialized.")
 
     _prompt = _prompt = ChatPromptTemplate.from_template(prompt_str)
 

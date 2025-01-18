@@ -20,7 +20,7 @@ LLM = ChatOpenAI(
                 openai_api_key=OPENAI_API_KEY,
                 temperature=0)
 retriever=manage_pinecone_store()
-def create_expert_chain(LLM=None, retriever=None):
+def create_expert_chain(LLM=None, retriever=retriever):
     """
     Create a chain for answering questions as an expert on Elon Musk.
 
@@ -70,7 +70,7 @@ with st.container():
 # Chat logic
 if send_button or send_input and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
-        response = chain.invoke({'question': query,"chat_history":"\n".join(str(history))})
+        response = create_expert_chain().invoke({'question': query,"chat_history":"\n".join(str(history))})
         print(response)
         query="user_question:"+query
         response="ai_response:"+response

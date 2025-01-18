@@ -25,5 +25,5 @@ documents = load_wikipedia_content(url, class_name)
 
 # Optional: Print the first document's content
 if documents:
-    print(documents[0].get("text", "No content found"))
+    print(documents[0].metadata)
 

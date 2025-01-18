@@ -19,21 +19,22 @@ def initialize_LLM(openai_api_key=None, gemini_api_key=None):
     """
     # Use explicitly provided API keys or fallback to environment variables
 
-    if openai_api_key:  # If OpenAI API key is provided
-        model_name = "gpt-4o-mini"
-        LLM = ChatOpenAI(
-            model_name=model_name,
-            openai_api_key=openai_api_key,
-            temperature=0
-        )
-        print("Using OpenAI's GPT-4 model.")
-    # elif gemini_api_key:  # If OpenAI credit is null
-    #     model_name = "gemini-1.5-flash-002"
-    #     LLM = GoogleGenerativeAI(
-    #         model=model_name,
-    #         google_api_key=gemini_api_key
+    # if openai_api_key:  # If OpenAI API key is provided
+    #     model_name = "gpt-4o-mini"
+    #     LLM = ChatOpenAI(
+    #         model_name=model_name,
+    #         openai_api_key=openai_api_key,
+    #         temperature=0
     #     )
-    #     print("Using Gemini's model.")
+    #     print("Using OpenAI's GPT-4 model.")
+   gemini_api_key:  # If OpenAI credit is null
+        model_name = "gemini-1.5-flash-002"
+        LLM = GoogleGenerativeAI(
+            model=model_name,
+            google_api_key=gemini_api_key
+        )
+        console.log("gemini")
+        print("Using Gemini's model.")
     else:
         raise ValueError("No API keys provided. Please set the OpenAI or Gemini API key.")
 

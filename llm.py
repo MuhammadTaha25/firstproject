@@ -25,17 +25,7 @@ def initialize_LLM(openai_api_key=OPENAI_API_KEY, gemini_api_key=GOOGLE_API_KEY)
     openai_api_key = openai_api_key or OPENAI_API_KEY
     gemini_api_key = gemini_api_key or GOOGLE_API_KEY
 
-    if gemini_api_key:
-        try:
-            model_name = "gemini-1.5-flash-002"
-            LLM = GoogleGenerativeAI(
-                model=model_name,
-                google_api_key=gemini_api_key
-            )
-            print("Using Gemini's model.")
-        except Exception as e:
-            raise RuntimeError(f"Failed to initialize Gemini model: {e}")
-    elif openai_api_key:
+    if openai_api_key:
         try:
             model_name = "gpt-4o-mini"
             LLM = ChatOpenAI(
@@ -46,6 +36,16 @@ def initialize_LLM(openai_api_key=OPENAI_API_KEY, gemini_api_key=GOOGLE_API_KEY)
             print("Using OpenAI's GPT-4 model.")
         except Exception as e:
             raise RuntimeError(f"Failed to initialize OpenAI model: {e}")
+    elif gemini_api_key:
+        try:
+            model_name = "gemini-1.5-flash-002"
+            LLM = GoogleGenerativeAI(
+                model=model_name,
+                google_api_key=gemini_api_key
+            )
+            print("Using Gemini's model.")
+        except Exception as e:
+            raise RuntimeError(f"Failed to initialize Gemini model: {e}")
     else:
         raise ValueError("No API keys provided. Please set the OpenAI or Gemini API key.")
 

@@ -2,9 +2,12 @@ import streamlit as st
 from audio import transcribe_audio
 from langchain.chat_models import ChatOpenAI
 from pineconedb import manage_pinecone_store
-from langchain.prompts.chat import ChatPromptTemplate
+from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema import StrOutputParser
 from operator import itemgetter
+from langchain_core.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
+from langchain.output_parsers import StrOutputParser
 #call the function to create the chain
 import os
 from dotenv import load_dotenv
@@ -57,6 +60,29 @@ def create_expert_chain(LLM=None, retriever=retriever):
     return chain
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
+from langchain.prompts import PromptTemplate
+from langchain.chat_models import ChatOpenAI
+from langchain.output_parsers import StrOutputParser
+
+# Initialize components
+setup = ...  # Add your setup logic here
+if setup is None:
+    raise ValueError("Setup is not properly initialized.")
+
+_prompt = PromptTemplate(
+    input_variables=["question", "context"],
+    template="You are an expert. Answer the following question: {question}\n\n{context}"
+)
+
+LLM = ChatOpenAI(
+    model_name="gpt-4",
+    openai_api_key=OPENAI_API_KEY
+)
+
+parser = StrOutputParser()
+
+# Build the chain
+chain = setup | _prompt | LLM | parser
 
 # Chat container to display conversation
 chat_container = st.container()

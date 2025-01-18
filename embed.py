@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-openai_api_key=os.environ['OPENAI_API_KEY']
-def initialize_embeddings(openai_api_key):
+OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
+def initialize_embeddings(openai_api_key=OPENAI_API_KEY):
     """
     Initialize embeddings using OpenAI or HuggingFace based on the availability of the OpenAI API key.
 
@@ -16,9 +16,9 @@ def initialize_embeddings(openai_api_key):
         Embeddings object: An instance of OpenAIEmbeddings or HuggingFaceEmbeddings.
     """
     # Retrieve the OpenAI API key (default to an environment variable if not explicitly provided)
-    openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
+    openai_key = openai_api_key or os.getenv("OPENAI_API_KEY")
 
-    if openai_api_key:  # Use OpenAI embeddings if the API key is available
+    if openai_key:  # Use OpenAI embeddings if the API key is available
         embeddings = OpenAIEmbeddings(
             model="text-embedding-ada-002",  # Use the desired OpenAI model
             openai_api_key=openai_api_key

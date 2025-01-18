@@ -1,5 +1,5 @@
 from langchain_pinecone import PineconeVectorStore
-from chunks import process_wikipedia_content
+from chunks import chunking_documents
 from embed import initialize_embeddings 
 from dotenv import load_dotenv
 import os
@@ -33,8 +33,8 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
         print(f"Error while loading Pinecone index: {e}")
         print(f"Attempting to create a new Pinecone index: {index_name}")
 
-        # Process content and split into chunks
-        chunks_received = process_wikipedia_content()
+        # receiving chunked data
+        chunks_received = chunking_documents()
 
         # Create a new vector store with the processed chunks
         pineconedb = PineconeVectorStore.from_documents(

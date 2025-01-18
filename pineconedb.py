@@ -1,6 +1,5 @@
 from langchain_pinecone import PineconeVectorStore
 from chunks import chunking_documents
-from embed import initialize_embeddings 
 from dotenv import load_dotenv
 import os
 

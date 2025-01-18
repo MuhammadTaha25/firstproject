@@ -1,16 +1,26 @@
 import streamlit as st
-from llm import initialize_LLM
 from audio import transcribe_audio
+from langchain.chat_models import ChatOpenAI
 from pineconedb import manage_pinecone_store
 #call the function to create the chain
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Retrieve API keys from environment variables
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 #initialize the history
 history=[]
-LLM=initialize_LLM()
 retriever=manage_pinecone_store()
-
-def create_expert_chain(LLM=LLM, retriever=retriever):
+LLM = ChatOpenAI(
+                model_name='gpt-4o-mini',
+                openai_api_key=OPENAI_API_KEY,
+                temperature=0)
+retriever=manage_pinecone_store()
+def create_expert_chain(LLM=None, retriever=None):
     """
     Create a chain for answering questions as an expert on Elon Musk.
 
@@ -38,9 +48,9 @@ def create_expert_chain(LLM=LLM, retriever=retriever):
         "question": query_fetcher,          # Fetch the question from input
         "context": query_fetcher ,"chat_history":history_fetcher| retriever|format_docs  # Combine the question with the retriever
     }
-    _chain = setup | _prompt | LLM | StrOutputParser()
+    chain = setup | _prompt | LLM | StrOutputParser()
 
-    return _chain
+    return chain
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
 
@@ -60,7 +70,7 @@ with st.container():
 # Chat logic
 if send_button or send_input and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
-        response = _chain.invoke({'question': query,"chat_history":"\n".join(str(history))})
+        response = chain.invoke({'question': query,"chat_history":"\n".join(str(history))})
         print(response)
         query="user_question:"+query
         response="ai_response:"+response

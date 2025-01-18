@@ -35,7 +35,7 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
 
         # receiving chunked data
         chunks_received = chunking_documents()
-
+        embeddings=embeddings
         # Create a new vector store with the processed chunks
         pineconedb = PineconeVectorStore.from_documents(
             chunks_received,                # List of Document objects

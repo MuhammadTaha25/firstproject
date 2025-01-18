@@ -5,9 +5,8 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-embeddings=initialize_embeddings()
 PINECONE_INDEX=os.environ["PINECONE_INDEX_NAME"]
-def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
+def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=None):
     """
     Manage Pinecone vector store by checking for an existing index or creating a new one.
 
@@ -25,6 +24,10 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
     """
     try:
         # Attempt to load an existing Pinecone index
+        embeddings = OpenAIEmbeddings(
+            model="text-embedding-3-small",  # Use the desired OpenAI model
+            openai_api_key=openai_api_key
+        )
         pineconedb = PineconeVectorStore.from_existing_index(index_name=index_name, embedding=embeddings)
         retriever=pineconedb.as_retriever(search_type="mmr", search_kwargs={"k": 5})
         print(f"Successfully loaded existing Pinecone index: {index_name}")
@@ -35,7 +38,10 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
 
         # receiving chunked data
         chunks_received = chunking_documents()
-        embeddings=embeddings
+       embeddings = OpenAIEmbeddings(
+            model="text-embedding-3-small",  # Use the desired OpenAI model
+            openai_api_key=openai_api_key
+        )
         # Create a new vector store with the processed chunks
         pineconedb = PineconeVectorStore.from_documents(
             chunks_received,                # List of Document objects

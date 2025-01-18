@@ -8,7 +8,8 @@ from operator import itemgetter
 #call the function to create the chain
 import os
 from dotenv import load_dotenv
-
+def format_docs(docs):
+    return "\n\n".join(doc.page_content for doc in docs)
 # Load environment variables from .env file
 load_dotenv()
 

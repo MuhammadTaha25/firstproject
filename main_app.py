@@ -2,6 +2,9 @@ import streamlit as st
 from audio import transcribe_audio
 from langchain.chat_models import ChatOpenAI
 from pineconedb import manage_pinecone_store
+from langchain.prompts.chat import ChatPromptTemplate
+from langchain.schema import StrOutputParser
+from operator import itemgetter
 #call the function to create the chain
 import os
 from dotenv import load_dotenv

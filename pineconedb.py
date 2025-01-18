@@ -25,7 +25,7 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=embeddings):
     """
     try:
         # Attempt to load an existing Pinecone index
-        pineconedb = PineconeVectorStore.from_existing_index(index_name=PINECONE_INDEX, embedding=embeddings)
+        pineconedb = PineconeVectorStore.from_existing_index(index_name=index_name, embedding=embeddings)
         retriever=pineconedb.as_retriever(search_type="mmr", search_kwargs={"k": 5})
         print(f"Successfully loaded existing Pinecone index: {index_name}")
         return retriever

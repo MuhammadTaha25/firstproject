@@ -18,7 +18,14 @@ def initialize_LLM(openai_api_key=None, gemini_api_key=GOOGLE_API_KEY):
         object: An instance of ChatOpenAI (OpenAI model) or GoogleGenerativeAI (Gemini model).
     """
     # Use explicitly provided API keys or fallback to environment variables
-
+   if gemini_api_key:  
+        model_name = "gemini-1.5-flash-002"
+        LLM = GoogleGenerativeAI(
+            model=model_name,
+            google_api_key=gemini_api_key
+        )
+        console.log("gemini")
+        print("Using Gemini's model.")
     # if openai_api_key:  # If OpenAI API key is provided
     #     model_name = "gpt-4o-mini"
     #     LLM = ChatOpenAI(
@@ -27,14 +34,7 @@ def initialize_LLM(openai_api_key=None, gemini_api_key=GOOGLE_API_KEY):
     #         temperature=0
     #     )
     #     print("Using OpenAI's GPT-4 model.")
-   if gemini_api_key:  # If OpenAI credit is null
-        model_name = "gemini-1.5-flash-002"
-        LLM = GoogleGenerativeAI(
-            model=model_name,
-            google_api_key=gemini_api_key
-        )
-        console.log("gemini")
-        print("Using Gemini's model.")
+
     else:
         raise ValueError("No API keys provided. Please set the OpenAI or Gemini API key.")
 

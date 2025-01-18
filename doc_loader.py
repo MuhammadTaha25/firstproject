@@ -1,5 +1,5 @@
 from langchain_community.document_loaders import WebBaseLoader
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import SoupStrainer
 
 def load_wikipedia_content(url, class_name):
     """

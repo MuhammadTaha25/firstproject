@@ -1,12 +1,48 @@
 from chainCreation import create_expert_chain
 import streamlit as st
+from llm import initialize_LLM
+
 from audio import transcribe_audio
 from pineconedb import manage_pinecone_store
 #call the function to create the chain
-manage_pinecone_store()
+
 chain=create_expert_chain()
 #initialize the history
 history=[]
+LLM=initialize_LLM()
+retriever=manage_pinecone_store()
+
+def create_expert_chain(LLM=LLM, retriever=retriever):
+    """
+    Create a chain for answering questions as an expert on Elon Musk.
+
+    Parameters:
+        llm (object): The language model to use for generating responses.
+        retriever (object): A retriever for fetching relevant context based on the question.
+
+    Returns:
+        object: A configured chain for answering questions about Elon Musk.
+    """
+    # Define the prompt template
+    prompt_str = """
+    You are a highly knowledgeable and conversational chatbot specializing in providing accurate and insightful information about Elon Musk.
+    Answer all questions as if you are an expert on his life, career, companies, and achievements.
+    Context: {context}
+    Question: {question}
+    conversation_history: {chat_history}
+    """
+    _prompt = ChatPromptTemplate.from_template(prompt_str)
+
+    # Chain setup
+    history_fetcher=itemgetter("chat_history")
+    query_fetcher = itemgetter("question")  # Extract the question from input
+    setup = {
+        "question": query_fetcher,          # Fetch the question from input
+        "context": query_fetcher ,"chat_history":history_fetcher| retriever|format_docs  # Combine the question with the retriever
+    }
+    _chain = setup | _prompt | LLM | StrOutputParser()
+
+    return _chain
 # Set the title of the app
 st.title("Ask Anything About Elon Musk")
 
@@ -26,7 +62,7 @@ with st.container():
 # Chat logic
 if send_button or send_input and query:
     with st.spinner("Processing... Please wait!"):  # Spinner starts here
-        response = chain.invoke({'question': query,"chat_history":"\n".join(str(history))})
+        response = _chain.invoke({'question': query,"chat_history":"\n".join(str(history))})
         print(response)
         query="user_question:"+query
         response="ai_response:"+response

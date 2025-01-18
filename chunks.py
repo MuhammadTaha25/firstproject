@@ -1,14 +1,7 @@
-from doc_loader import load_wikipedia_content
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from dotenv import load_dotenv
-import os
+from doc_loader import documents
 
-load_dotenv()
-
-WIKIPEDIA_URL=os.environ["WIKIPEDIA_URL"]
-bs4_SoupStrainer_Class=os.environ["bs4_SoupStrainer_Class"]
-
-def process_wikipedia_content(url=WIKIPEDIA_URL, class_name=bs4_SoupStrainer_Class, chunk_size=1500, chunk_overlap=150):
+def chunking_documents(chunk_size=1500, chunk_overlap=150):
     """
     Fetch and split content from a Wikipedia page into manageable chunks.
 
@@ -21,8 +14,8 @@ def process_wikipedia_content(url=WIKIPEDIA_URL, class_name=bs4_SoupStrainer_Cla
     Returns:
         list: A list of document chunks as dictionaries.
     """
-    # Load content from the specified Wikipedia page
-    docs = load_wikipedia_content(url, class_name)
+    # Load content from the documents variable
+    docs = documents
 
     # Initialize the RecursiveCharacterTextSplitter
     text_splitter = RecursiveCharacterTextSplitter(

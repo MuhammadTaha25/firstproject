@@ -52,10 +52,8 @@ def create_expert_chain(LLM=None, retriever=retriever):
     history_fetcher=itemgetter("chat_history")
     query_fetcher = itemgetter("question")  # Extract the question from input
     
-    setup = {
-        "question": query_fetcher,          # Fetch the question from input
-        "context": query_fetcher ,"chat_history":history_fetcher| retriever|format_docs  # Combine the question with the retriever
-    } # Add your setup logic here
+    setup = {"question": query_fetcher, "context": query_fetcher | retriever| format_docs }
+ # Add your setup logic here
     if setup is None:
         raise ValueError("Setup is not properly initialized.")
 

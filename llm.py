@@ -1,4 +1,4 @@
-# from langchain_google_genai import GoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAI
 from langchain.chat_models import ChatOpenAI
 import os
 from dotenv import load_dotenv

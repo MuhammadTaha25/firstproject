@@ -11,10 +11,8 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-OPENAI_API_KEY=os.environ['OPENAI_API_KEY']
-# GOOGLE_API_KEY=os.environ['GEMINI_API_KEY']
-load_dotenv()
-LLM=initialize_LLM(OPENAI_API_KEY)
+
+LLM=initialize_LLM()
 retriever=manage_pinecone_store()
 
 def create_expert_chain(LLM=LLM, retriever=retriever):

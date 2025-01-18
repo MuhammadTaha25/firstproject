@@ -37,7 +37,7 @@ def manage_pinecone_store(index_name=PINECONE_INDEX, embeddings=None):
 
         # receiving chunked data
         chunks_received = chunking_documents()
-       embeddings = OpenAIEmbeddings(
+        embeddings = OpenAIEmbeddings(
             model="text-embedding-3-small",  # Use the desired OpenAI model
             openai_api_key=openai_api_key
         )

@@ -16,6 +16,8 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 # Load environment variables from .env file
 load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")#Document loader
+print("OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
 
 # Retrieve API keys from environment variables
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')

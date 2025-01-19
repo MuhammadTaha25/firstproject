@@ -2,6 +2,7 @@ from langchain_pinecone import PineconeVectorStore
 from langchain_openai import OpenAIEmbeddings
 from chunks import chunking_documents
 from dotenv import load_dotenv
+import openai
 import os
 
 load_dotenv()

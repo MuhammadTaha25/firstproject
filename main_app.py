@@ -26,7 +26,7 @@ def opeani(openai_apiA_key):
         return print("OPENAI_API_KEY: loaded failed")
         console.log('"OPENAI_API_KEY:loaded failed')    
 # Retrieve API keys from environment variables
-openai(openai.api_key)
+opeani(openai.api_key)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 #initialize the history

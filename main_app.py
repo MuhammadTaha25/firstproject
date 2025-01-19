@@ -17,9 +17,16 @@ def format_docs(docs):
 # Load environment variables from .env file
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")#Document loader
-print("OPENAI_API_KEY:", os.getenv("OPENAI_API_KEY"))
 
+def opeani(openai_apiA_key):
+    if openai.api_key:
+        print("OPENAI_API_KEY: loaded")
+        return console.log('"OPENAI_API_KEY:loaded')
+    else:
+        return print("OPENAI_API_KEY: loaded failed")
+        console.log('"OPENAI_API_KEY:loaded failed')    
 # Retrieve API keys from environment variables
+openai(openai.api_key)
 OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 #initialize the history

@@ -1,6 +1,7 @@
 import streamlit as st
 from audio import transcribe_audio
 from langchain.chat_models import ChatOpenAI
+import openai
 from pineconedb import manage_pinecone_store
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema import StrOutputParser
